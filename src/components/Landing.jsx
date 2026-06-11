@@ -1,8 +1,8 @@
-import { trackInitiateCheckout } from '../lib/metaPixel.js'
+import { trackQuizStart } from '../lib/metaPixel.js'
 
 export default function Landing({ onStart }) {
   function handleStartClick() {
-    trackInitiateCheckout()
+    trackQuizStart()
     onStart()
   }
 

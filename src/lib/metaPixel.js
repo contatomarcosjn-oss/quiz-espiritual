@@ -48,15 +48,90 @@ export function trackPageView() {
   })
 }
 
-export function trackInitiateCheckout() {
+function hasTrackedEvent(eventKey) {
+  try {
+    return window.sessionStorage.getItem(eventKey) === 'true'
+  } catch {
+    return false
+  }
+}
+
+function rememberTrackedEvent(eventKey) {
+  try {
+    window.sessionStorage.setItem(eventKey, 'true')
+  } catch {
+    // Tracking must never break the funnel when storage is unavailable.
+  }
+}
+
+function trackStandardEvent(eventName, params = {}, options = {}) {
   if (!canUseBrowser()) return
 
   loadMetaPixel()
-  window.fbq('track', 'InitiateCheckout')
-  console.log('[Meta Pixel] InitiateCheckout fired', {
+
+  if (options.eventKey && hasTrackedEvent(options.eventKey)) {
+    console.log(`[Meta Pixel] ${eventName} skipped`, {
+      pixelId: META_PIXEL_ID,
+      reason: 'already_tracked_in_session',
+      eventKey: options.eventKey,
+    })
+    return
+  }
+
+  window.fbq('track', eventName, params)
+
+  if (options.eventKey) {
+    rememberTrackedEvent(options.eventKey)
+  }
+
+  console.log(`[Meta Pixel] ${eventName} fired`, {
     pixelId: META_PIXEL_ID,
-    source: 'FAZER MEU QUIZ AGORA',
+    ...params,
   })
+}
+
+export function trackQuizStart() {
+  trackStandardEvent(
+    'ViewContent',
+    {
+      content_name: 'Quiz Espiritual',
+      content_category: 'quiz_start',
+    },
+    { eventKey: 'meta_pixel_view_content_quiz_start' },
+  )
+}
+
+export function trackLead() {
+  trackStandardEvent(
+    'Lead',
+    {
+      content_name: 'Captura de Lead - Resultado do Quiz',
+      content_category: 'lead_capture',
+    },
+    { eventKey: 'meta_pixel_lead_capture' },
+  )
+}
+
+export function trackInitiateCheckout() {
+  trackStandardEvent('InitiateCheckout', {
+    content_name: 'Guia de Observação e Autoconhecimento',
+    content_category: 'checkout',
+    value: 7.9,
+    currency: 'BRL',
+  })
+}
+
+export function trackPurchase() {
+  trackStandardEvent(
+    'Purchase',
+    {
+      content_name: 'Guia de Observação e Autoconhecimento',
+      content_category: 'purchase',
+      value: 7.9,
+      currency: 'BRL',
+    },
+    { eventKey: 'meta_pixel_purchase_main_offer' },
+  )
 }
 
 export function installMetaPixelPageViewTracking() {

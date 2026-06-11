@@ -1,3 +1,5 @@
+import { trackInitiateCheckout } from '../lib/metaPixel.js'
+
 const CHECKOUT_URL = "https://pay.kiwify.com.br/hBznpO9";
 const ctaText = 'QUERO DESCOBRIR MEUS SINAIS'
 
@@ -73,6 +75,7 @@ function EbookMockup({ open = false }) {
 
 export default function SalesPage() {
   const goToCheckout = () => {
+    trackInitiateCheckout()
     window.location.href = CHECKOUT_URL;
   };
 

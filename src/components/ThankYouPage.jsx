@@ -1,6 +1,13 @@
+import { useEffect } from 'react'
+import { trackPurchase } from '../lib/metaPixel.js'
+
 const ebookUrl = '/Os-7-Sinais-Espirituais-Que-Muitas-Pessoas-Ignoram.pdf'
 
 export default function ThankYouPage() {
+  useEffect(() => {
+    trackPurchase()
+  }, [])
+
   return (
     <section className="stage thank-you-stage">
       <div className="thank-you-card">

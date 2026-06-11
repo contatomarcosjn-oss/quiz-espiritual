@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { trackLead } from '../lib/metaPixel.js'
 
 function isValidEmail(email) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
@@ -28,6 +29,8 @@ export default function LeadCapture({ defaultName, onSubmit }) {
 
     setErrors(nextErrors)
     if (Object.keys(nextErrors).length > 0) return
+
+    trackLead()
 
     onSubmit({
       nome: form.nome.trim(),
