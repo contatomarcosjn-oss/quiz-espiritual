@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import { trackPurchase } from '../lib/metaPixel.js'
 
-const ebookUrl = '/Os-7-Sinais-Espirituais-Que-Muitas-Pessoas-Ignoram.pdf'
+const ebookUrl = '/Guia%20de%20Observa%C3%A7%C3%A3o%20e%20Autoconhecimento.pdf'
 
 export default function ThankYouPage() {
   useEffect(() => {
