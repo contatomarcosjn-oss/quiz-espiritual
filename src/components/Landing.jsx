@@ -1,4 +1,11 @@
+import { trackInitiateCheckout } from '../lib/metaPixel.js'
+
 export default function Landing({ onStart }) {
+  function handleStartClick() {
+    trackInitiateCheckout()
+    onStart()
+  }
+
   return (
     <section className="stage landing-stage">
       <div className="hero-copy">
@@ -13,7 +20,7 @@ export default function Landing({ onStart }) {
           <span>🔮 10 perguntas rápidas</span>
           <span>📊 Resultado imediato</span>
         </div>
-        <button className="primary-button" onClick={onStart}>
+        <button className="primary-button" onClick={handleStartClick}>
           FAZER MEU QUIZ AGORA
         </button>
       </div>
